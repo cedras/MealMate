@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Logo from "../components/logo";
+import SearchInput from '../components/searchinput';
 
 
 const Container = styled.div`
@@ -29,8 +30,8 @@ function Home() {
     <Container>
       <MainContent>
         <Logo />
-        <Greeting>Witaj w MealMate! Znajdź idealny przepis na dziś.</Greeting>
-        
+        <Greeting>Welcome to the MealMate friend, start looking for your perfect recipes now!</Greeting>
+        <SearchInput />
       </MainContent>
     </Container>
   );
