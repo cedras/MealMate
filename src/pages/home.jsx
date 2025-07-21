@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Logo from "../components/logo";
-import SearchInput from '../components/searchinput';
+import SearchInput from '../components/SearchInput';
+import SearchResults from '../components/SearchResults';
 
 
 const Container = styled.div`
@@ -25,6 +26,11 @@ const Greeting = styled.h1`
   text-align: center;
 `;
 
+const mockResults = [
+  { id: 1, title: "Kurczak w sosie", description: "Aromatyczny i pyszny obiad"},
+  { id: 2, title: "Kurczak z ryżem", description: "Aromatyczny i zdrowy obiad"}
+];
+
 function Home() {
   return (
     <Container>
@@ -32,6 +38,7 @@ function Home() {
         <Logo />
         <Greeting>Welcome to the MealMate friend, start looking for your perfect recipes now!</Greeting>
         <SearchInput />
+        <SearchResults results={mockResults} />
       </MainContent>
     </Container>
   );

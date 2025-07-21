@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Favourites from "./pages/Favourites";
 import Recipes from "./pages/Recipes";
-import Search from "./pages/Search";
+import Search from "./pages/search";
 import Layout from "./layout/layout";
 
 function App() {
