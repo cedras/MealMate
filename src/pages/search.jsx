@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import SearchResults from "../components/SearchResults";
+import api from "../services/api";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -14,30 +15,46 @@ font-size: ${({ theme }) => theme.fontSizes.heading};
 
 function Search() {
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const searchTerm = searchParams.get('q') || '';
+    const query = new URLSearchParams(location.search).get("q") || "";
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState([false]);
+    const [error, setError] = useState([null]);
+   
 
-    const allMockRecipes = [
-        { id: 1, title: 'Chicken Alfredo'},
-        { id: 2, title: 'Spicy Chicken Wings'},
-        { id: 3, title: 'Vegan Salad'},
-    ];
+   useEffect(() => {
+    if (!query) return;
 
-    const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const fetchRecipes = async () => {
+        setLoading(true);
+        setError(null);
 
-    useEffect(() => {
-        const results = allMockRecipes.filter((recipe) => 
-        recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredRecipes(results);
-    }, [searchTerm]);
+        try {
+            const response = await api.get(`search.php?s=${query}`);
+            const meals = response.data.meals || [];
+            const formatted = meals.map((meal) => ({
+                    id: meal.idMeal,
+                    title: meal.strMeal,
+                    image: meal.strMealThumb,
+            }));
+            setResults(formatted);
+        } catch (err) {
+            setError("There has been an error with downloading data");
+            setResults([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    return (
-        <Container>
-            <Title>Wyniki wyszukiwania dla: "{query}"</Title>
-            <SearchResults results={filteredRecipes} />
-        </Container>
-    );
+    fetchRecipes();
+   }, [query]);
+
+   if (loading) return <p>Loading recipes...</p>;
+   if (error) return <p>{error}</p>;
+   if (!results.length) return <p>No results found for "{query}"</p>;
+
+   return <SearchResults results={results} />;
+
+    
 }
 
 export default Search;

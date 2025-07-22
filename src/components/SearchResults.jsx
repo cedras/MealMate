@@ -13,16 +13,23 @@ border: 1px solid black;
 border-radius: 8px;
 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 transition: transform 0.2 ease;
+overflow: hidden;
 
 &:hover {
-    transform: translateY(-5px);
+    transform: scale(1.03);
 }
-
 `;
+
+const RecipeImage = styled.img`
+width: 100%;
+height: auto;
+object-fit: cover;
+`
 
 const Title = styled.h3`
 margin-bottom: 0.5rem;
 font-size: ${({ theme }) => theme.fontSizes.heading};
+color: ${({ theme }) => theme.colors.secondary};
 `;
 
 const Description = styled.p`
@@ -34,6 +41,8 @@ function SearchResults({ results }) {
         <ResultsContainer>
             {results.map((recipe) => (
                 <RecipeCard key={recipe.id}>
+                    <RecipeImage
+                    src={results.image} alt={results.name}/>
                     <Title>{recipe.title}</Title>
                     <Description>{recipe.desscription}</Description>
                 </RecipeCard>
