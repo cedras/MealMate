@@ -18,7 +18,7 @@ const LogoWrapper = styled(Link)`
 `;
 
 function Logo({ small = false }) {
-  return <LogoWrapper small={small}>🍽️ MealMate</LogoWrapper>;
+  return <LogoWrapper to="/" small={small}>🍽️ MealMate</LogoWrapper>;
 }
 
 export default Logo;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ResultsContainer = styled.div`
   display: grid;
@@ -37,8 +38,10 @@ function SearchResults({ results }) {
     <ResultsContainer>
       {results.map((recipe) => (
         <RecipeCard key={recipe.id}>
+        <Link to={`/recipe/${recipe.id}`}>
           <RecipeImage src={recipe.image} alt={recipe.name} />
           <Title>{recipe.name}</Title>
+          </Link>
         </RecipeCard>
       ))}
     </ResultsContainer>

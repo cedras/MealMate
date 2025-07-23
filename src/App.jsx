@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Favourites from "./pages/Favourites";
-import Recipes from "./pages/Recipes";
+import Recipes from "./pages/recipes";
 import Search from "./pages/search";
 import Layout from "./layout/layout";
 

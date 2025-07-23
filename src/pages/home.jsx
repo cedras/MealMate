@@ -26,6 +26,12 @@ const Greeting = styled.h1`
   text-align: center;
 `;
 
+const Popular = styled.div`
+  font-size: 2rem;
+  margin-top: 50px;
+  
+`
+
 const mockResults = [
   { id: 1, title: "Kurczak w sosie", description: "Aromatyczny i pyszny obiad"},
   { id: 2, title: "Kurczak z ryżem", description: "Aromatyczny i zdrowy obiad"}
@@ -38,7 +44,7 @@ function Home() {
         <Logo />
         <Greeting>Welcome to the MealMate friend, start looking for your perfect recipes now!</Greeting>
         <SearchInput />
-        <SearchResults results={mockResults} />
+        <Popular>Some of the most popular recipes lately:</Popular>
       </MainContent>
     </Container>
   );

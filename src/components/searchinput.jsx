@@ -55,7 +55,7 @@ function SearchInput() {
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyPress}
       />
-      <Button onClick={handleSearch}>Szukaj</Button>
+      <Button onClick={handleSearch}>Search</Button>
     </InputWrapper>
   );
 }
