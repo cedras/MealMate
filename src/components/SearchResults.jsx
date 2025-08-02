@@ -38,7 +38,7 @@ function SearchResults({ results }) {
     <ResultsContainer>
       {results.map((recipe) => (
         <RecipeCard key={recipe.id}>
-        <Link to={`/recipe/${recipe.id}`}>
+        <Link to={`/recipes/${recipe.id}`}>
           <RecipeImage src={recipe.image} alt={recipe.name} />
           <Title>{recipe.name}</Title>
           </Link>

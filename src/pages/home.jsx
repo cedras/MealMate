@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import Logo from "../components/logo";
 import SearchInput from '../components/SearchInput';
 import SearchResults from '../components/SearchResults';
+import { useEffect, useState } from 'react';
+import api from '../services/api';
+import { Link } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -26,25 +29,84 @@ const Greeting = styled.h1`
   text-align: center;
 `;
 
-const Popular = styled.div`
+const RandomRecipesSection = styled.div`
   font-size: 2rem;
   margin-top: 50px;
   
 `
 
-const mockResults = [
-  { id: 1, title: "Kurczak w sosie", description: "Aromatyczny i pyszny obiad"},
-  { id: 2, title: "Kurczak z ryżem", description: "Aromatyczny i zdrowy obiad"}
-];
+const RandomMealsGrid = styled.div`
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+`;
+
+const RandomCard = styled.div`
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+`;
+
+const RandomImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+`;
+
+const RandomTitle = styled.h3`
+  padding: 1rem;
+  font-size: 1.2rem;
+`;
+
+
 
 function Home() {
+
+  const [randomMeals, setRandomMeals] = useState([]);
+
+useEffect(() => {
+  const fetchRandomMeals = async () => {
+    try {
+      const promises = Array.from({ length: 3 }, () => api.get('/random.php'));
+      const results = await Promise.all(promises);
+      const meals = results.map(res => res.data.meals[0]);
+      setRandomMeals(meals);
+    } catch (err) {
+      console.error("❌ Failed to fetch random meals:", err);
+    }
+  };
+
+  fetchRandomMeals();
+}, []);
+
   return (
     <Container>
       <MainContent>
         <Logo />
         <Greeting>Welcome to the MealMate friend, start looking for your perfect recipes now!</Greeting>
         <SearchInput />
-        <Popular>Some of the most popular recipes lately:</Popular>
+        <RandomRecipesSection>Some random recipes for inspiration:</RandomRecipesSection>
+
+        <RandomMealsGrid>
+          {randomMeals.map((meal) => (
+            <Link to={`/recipes/${meal.idMeal}`} key={meal.idMeal} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <RandomCard>
+                <RandomImage src={meal.strMealThumb} alt={meal.strMeal} />
+                <RandomTitle>{meal.strMeal}</RandomTitle>
+              </RandomCard>
+            </Link>
+          ))}
+        </RandomMealsGrid>
       </MainContent>
     </Container>
   );

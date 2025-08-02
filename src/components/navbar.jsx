@@ -32,7 +32,7 @@ const NavLink = styled(Link)`
 function Navbar() {
   return (
     <Nav>
-      <Logo small />
+      <Logo $small={true} />
       <NavLinks>
         <NavLink to="/">Home</NavLink>
         <NavLink to="/login">Login</NavLink>

@@ -43,7 +43,7 @@ function Search() {
     console.error("❌ API error:", err);
     setError("Coś poszło nie tak przy pobieraniu danych.");
   } finally {
-    setLoading(false); // ← TO MUSI TU BYĆ
+    setLoading(false); 
   }
 };
 
