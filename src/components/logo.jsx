@@ -14,6 +14,7 @@ const LogoWrapper = styled(Link)`
 
   &:hover {
     opacity: 0.9;
+    background-color: ${({ theme }) => theme.colors.logoHover};
   }
 `;
 

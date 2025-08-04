@@ -5,6 +5,7 @@ export const theme = {
     background: "#f9f9f9",
     logo: "#da7e16ff",
     text: "#333",
+    logoHover: "#ff6347",
   },
   fontSizes: {
     heading: "2rem",

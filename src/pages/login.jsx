@@ -2,6 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { auth } from "../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Container = styled.div`
     padding: 2rem;
@@ -50,6 +53,8 @@ const Message = styled.p`
 `;
 
 function Login() {
+
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState(null);
@@ -69,6 +74,7 @@ function Login() {
             await signInWithEmailAndPassword(auth, email, password);
             setMessage("Login successful!");
             setSuccess(true);
+            navigate("/");
         } catch (error) {
             setMessage(`Error: ${error.message}`);
             setSuccess(false);

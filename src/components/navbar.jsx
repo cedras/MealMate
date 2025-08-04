@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "./logo";
+import { useUser } from "../components/usercontext";
 
 const Nav = styled.nav`
   display: flex;
@@ -29,17 +30,43 @@ const NavLink = styled(Link)`
   }
 `;
 
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: ${({ theme }) => theme.colors.secondary};
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 1rem;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
 function Navbar() {
+  const { user, logout } = useUser();
+
   return (
     <Nav>
       <Logo $small={true} />
       <NavLinks>
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">Register</NavLink>
         <NavLink to="/favourites">Favourites</NavLink>
+
+        {user ? (
+          <>
+            <Button onClick={logout}>Logout</Button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register">Register</NavLink>
+          </>
+        )}
       </NavLinks>
     </Nav>
   );
 }
+
 export default Navbar;
