@@ -20,7 +20,6 @@ MealMate to aplikacja webowa pozwalająca użytkownikowi na szybkie znalezienie 
 - **React Router DOM** – routing aplikacji
 - **styled-components** – stylowanie komponentów (CSS-in-JS + theming)
 - **Axios** – do komunikacji z zewnętrznymi API
-- **Redux Toolkit** – do zarządzania stanem globalnym
 - **Firebase** – uwierzytelnianie + baza danych (Firestore)
 - **TheMealDB API** – zewnętrzne API do przepisów (darmowe, ale ograniczone do 1 składnika)
 
