@@ -1,97 +1,104 @@
+
 # 🍽️ MealMate
 
-MealMate to aplikacja webowa pozwalająca użytkownikowi na szybkie znalezienie przepisów kulinarnych na podstawie dostępnego składnika. Użytkownik niezalogowany może wyszukiwać przepisy, a po zalogowaniu dodatkowo zapisywać swoje ulubione dania i mieć dostęp do własnego dashboardu.
+MealMate to aplikacja webowa umożliwiająca szybkie wyszukiwanie przepisów kulinarnych na podstawie dostępnego składnika. Użytkownik niezalogowany może przeglądać przepisy, a po zalogowaniu uzyskuje dostęp do dodatkowych funkcji, takich jak zapisywanie ulubionych dań.
 
 ---
 
-##  Cel projektu
+## 🎯 Cel projektu
 
-- Stworzyć pełną aplikację SPA (Single Page Application) w React z podziałem na widoki publiczne i prywatne.
-- Połączyć frontend z Firebase (uwierzytelnianie + Firestore).
-- Skorzystać z darmowego API TheMealDB, aby umożliwić wyszukiwanie przepisów.
-- Zapewnić pełną responsywność aplikacji (mobile-first).
-- Stosować nowoczesne podejście do stylowania z `styled-components` oraz zarządzania stanem z `Redux Toolkit`.
-
----
-
-##  Technologie
-
-- **React** (komponenty, routing, hooki)
-- **React Router DOM** – routing aplikacji
-- **styled-components** – stylowanie komponentów (CSS-in-JS + theming)
-- **Axios** – do komunikacji z zewnętrznymi API
-- **Redux Toolkit** – do zarządzania stanem globalnym
-- **Firebase** – uwierzytelnianie + baza danych (Firestore)
-- **TheMealDB API** – zewnętrzne API do przepisów (darmowe, ale ograniczone do 1 składnika)
+- Zbudowanie aplikacji SPA (Single Page Application) w React.
+- Połączenie z zewnętrznym API do pobierania przepisów kulinarnych.
+- Umożliwienie rejestracji i logowania użytkowników (Firebase).
+- Przechowywanie stanu zalogowania w React Context.
+- Dynamiczne renderowanie interfejsu w zależności od stanu użytkownika.
+- Podstawowa responsywność aplikacji.
 
 ---
 
-##  Responsywność
+## 🛠️ Technologie
 
-- Interfejs aplikacji będzie dostosowany do ekranów mobilnych (mobile-first).
-- W przypadku maksymalnego zmniejszenia okna przeglądarki — nawigacja zmienia się w ikonę menu (hamburger), a widoki układają się pionowo.
+- **React** (komponenty funkcyjne, hooki)
+- **React Router DOM** – routing SPA
+- **styled-components** – stylowanie komponentów i motyw
+- **Axios** – komunikacja z API
+- **Firebase** – logowanie i rejestracja użytkownika
+- **React Context** – zarządzanie stanem zalogowanego użytkownika
 
 ---
 
-##  Klasy danych (Model)
+## 📱 Responsywność
+
+- Aplikacja działa poprawnie na urządzeniach mobilnych dzięki elastycznym układom `flex` i `grid`.
+- Stylowanie komponentów jest skalowalne i responsywne.
+
+---
+
+## 📄 Modele danych
+
+Poniżej opis danych, z jakimi pracuje aplikacja jako struktury obiektów w pamięci i w API.
 
 ### `User`
-- `id`
-- `email`
-- `password`
-- `favourites: Recipe[]`
+
+Reprezentuje zalogowanego użytkownika:
+
+```js
+{
+  id: "firebase-uid",
+  email: "example@mail.com"
+}
+```
 
 ### `Recipe`
-- `id`
-- `name`
-- `image`
-- `category`
-- `instructions`
-- `ingredients[]`
+
+Reprezentuje przepis kulinarny:
+
+```js
+{
+  id: "52977",
+  name: "Chicken Alfredo",
+  image: "https://www.themealdb.com/images/media/meals/...",
+  instructions: "Step-by-step description...",
+  ingredients: [
+    { name: "Chicken", measure: "200g" },
+    { name: "Cream", measure: "100ml" },
+    // ...
+  ]
+}
+```
 
 ### `Search`
-- `ingredient: string`
-- `results: Recipe[]`
+
+Reprezentuje zapytanie użytkownika:
+
+```js
+{
+  ingredient: "chicken",
+  results: [Recipe, Recipe, Recipe] // lista przepisów z API
+}
+```
 
 ---
 
-## MoSCoW (wymagania projektu)
+## ✅ Funkcjonalności
 
-### ✅ Must Have
-- Możliwość wyszukania przepisów po **jednym składniku** (ograniczenie API)
-- Prezentacja wyników (nazwa, kategoria, obrazek, przycisk „zobacz przepis”)
-- Rejestracja i logowanie użytkownika (Firebase Auth)
-- Zapisywanie ulubionych przepisów (Firestore)
-- Nawigacja dynamicznie dostosowująca się do zalogowanego/niezalogowanego użytkownika
-- Widok `Dashboard` z zapisanymi przepisami użytkownika
-- Routing między stronami
-- Komponent Loader (spinner podczas pobierania danych)
-
-### ✅ Should Have
-- Obsługa błędów (np. brak wyników)
-- Notyfikacje np. po zapisaniu/usunięciu przepisu
-- Tłumaczenie składników z innego języka
-- Rozdzielenie komponentów na logiczne sekcje
-
-### ✅ Could Have
-- Możliwość dodania notatek do przepisu przez użytkownika
-- Zapamiętywanie ostatniego wyszukiwanego składnika
-- Proponowanie podobnych przepisów z tej samej kategorii
-
-### ❌ Won't Have
-- Wyszukiwanie po wielu składnikach (limit API)
-- System komentarzy / ocen
-- Możliwość dodawania własnych przepisów
+- Wyszukiwanie przepisów po jednym składniku
+- Wyświetlanie wyników (obrazek, nazwa przepisu)
+- Przejście do szczegółów przepisu (instrukcje, składniki z obrazkami)
+- Rejestracja i logowanie użytkownika
+- Dynamiczna nawigacja w zależności od zalogowania
+- Przechowywanie stanu użytkownika (z Context API)
+- Obsługa błędów (brak wyników, błąd API)
+- Powiadomienia tekstowe
 
 ---
 
-##  API: TheMealDB
+## 🌐 API: TheMealDB
 
-- Darmowe API do pobierania przepisów
-- Można wyszukiwać tylko po **jednym składniku**
-- Link do dokumentacji: [https://www.themealdb.com/api.php](https://www.themealdb.com/api.php)
+- Darmowe API do przepisów
+- Możliwość wyszukiwania po jednym składniku
+- Endpointy używane:
+  - `filter.php?i=ingredient` – wyszukiwanie po składniku
+  - `lookup.php?i=id` – szczegóły dania
 
----
-
-
-
+Dokumentacja: [https://www.themealdb.com/api.php](https://www.themealdb.com/api.php)
