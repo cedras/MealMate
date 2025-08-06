@@ -19,8 +19,6 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled(Link)`
-  display: flex;
-  align-items: center;
   color: white;
   text-decoration: none;
   margin-right: 1rem;

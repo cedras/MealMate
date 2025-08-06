@@ -2,6 +2,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import styled from "styled-components";
+import { useUser } from "../components/usercontext";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../services/firebase";
+
 
 const Container = styled.div`
   padding: 2rem;
@@ -35,7 +39,7 @@ const Ingredients = styled.div`
 
 const InstructionHeading = styled.h2`
   font-size: 1.5rem;
-  margin: 3rem 0 1rem;
+  margin: 0 0 1rem;
   color: ${({ theme }) => theme.colors.secondary};
 `;
 
@@ -70,11 +74,29 @@ const Instructions = styled.p`
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 `;
 
+const FavouriteButton = styled.button`
+  margin: 1.5rem 0;
+  padding: 0.75rem 1.5rem;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.secondary};
+  }
+`;
+
 function Recipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -99,6 +121,33 @@ function Recipe() {
 
   const ingredients = getIngredients(recipe);
 
+
+const handleSaveToFavourites = async () => {
+  if (!user) return;
+
+  const recipeRef = doc(db, "favourites", user.uid, "meals", recipe.idMeal);
+
+  try {
+    const existing = await getDoc(recipeRef);
+
+    if (existing.exists()) {
+      alert("This recipe is already in your favourites!");
+      return;
+    }
+
+    await setDoc(recipeRef, {
+      id: recipe.idMeal,
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+    });
+
+    alert("Recipe saved to your favourites!");
+  } catch (error) {
+    console.error("❌ Error saving recipe:", error);
+    alert("Failed to save recipe.");
+  }
+};
+
   return (
     <Container>
       <Title>{recipe.strMeal}</Title>
@@ -116,6 +165,11 @@ function Recipe() {
           ))}
         </Ingredients>
       </ContentWrapper>
+      {user && (
+        <FavouriteButton onClick={handleSaveToFavourites}>
+          ❤️ Save to favourites
+        </FavouriteButton>
+      )}
       <InstructionHeading>How to make this delicious recipe:</InstructionHeading>
       <Instructions>{recipe.strInstructions}</Instructions>
     </Container>
