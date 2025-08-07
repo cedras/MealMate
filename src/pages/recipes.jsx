@@ -105,8 +105,8 @@ function Recipe() {
         const meal = res.data.meals?.[0];
         if (!meal) throw new Error("Recipe not found");
         setRecipe(meal);
-      } catch (err) {
-        console.error("❌ API error:", err);
+      } catch (error) {
+        console.error("❌ API error:", error);
         setError("Recipe download has failed");
       } finally {
         setLoading(false);
