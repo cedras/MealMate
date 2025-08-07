@@ -19,17 +19,29 @@ const MainContent = styled.main`
   align-items: center;
   justify-content: center;
   padding: 2rem;
+
+   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem;
+}
 `;
 
 const Greeting = styled.h1`
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1.5rem;
+  }
 `;
 
 const RandomRecipesSection = styled.div`
   font-size: 2rem;
   margin-top: 50px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1.3rem;
+  }
 `;
 
 const RandomMealsGrid = styled.div`
@@ -58,11 +70,20 @@ const RandomImage = styled.img`
   width: 100%;
   height: 200px;
   object-fit: cover;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    height: 150px;
+  }
 `;
 
 const RandomTitle = styled.h3`
   padding: 1rem;
   font-size: 1.2rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
 `;
 
 function Home() {

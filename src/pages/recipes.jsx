@@ -9,11 +9,20 @@ import { db } from "../services/firebase";
 
 const Container = styled.div`
   padding: 2rem;
+  
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes.heading};
   margin-bottom: 1.5rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.small};
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -28,6 +37,10 @@ const Image = styled.img`
   max-width: 500px;
   border-radius: 8px;
   flex: 1;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    max-width: 100%;
+  }
 `;
 
 const Ingredients = styled.div`
@@ -72,6 +85,11 @@ const Instructions = styled.p`
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    padding: 0.75rem;
+  }
 `;
 
 const FavouriteButton = styled.button`
@@ -89,6 +107,7 @@ const FavouriteButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
   }
+
 `;
 
 function Recipe() {
@@ -147,6 +166,8 @@ const handleSaveToFavourites = async () => {
     alert("Failed to save recipe.");
   }
 };
+
+
 
   return (
     <Container>

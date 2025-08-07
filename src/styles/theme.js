@@ -10,9 +10,14 @@ export const theme = {
   fontSizes: {
     heading: "2rem",
     text: "1rem",
-    small: "0.875rem",
+    small: "1.5rem",
   },
   fonts: {
     main: "'Inter', sans-serif",
+  },
+  breakpoints: {
+    mobile: "480px",
+    tablet: "768px",
+    desktop: "1280px",
   },
 };

@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 
 const Container = styled.div`
   padding: 2rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: ${({ theme }) => theme.fontSizes.small};
+  }
 `;
 
 const Title = styled.h1`
@@ -31,6 +35,12 @@ const FavItem = styled.li`
   padding: 0.75rem 1rem;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 `;
 
 const FavLink = styled(Link)`
@@ -51,11 +61,20 @@ const FavThumbnail = styled.img`
   border-radius: 6px;
   margin-right: 1rem;
   object-fit: cover;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    margin-right: 1rem;
+  }
 `;
 
 const FavName = styled.span`
   font-size: 1.1rem;
   font-weight: 500;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1rem;
+    margin-right: 4rem;
+  }
 `;
 
 const DeleteButton = styled.button`
@@ -70,6 +89,11 @@ const DeleteButton = styled.button`
 
   &:hover {
     background-color: darkred;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    align-self: flex-end;
+    margin-left: auto;
   }
 `;
 

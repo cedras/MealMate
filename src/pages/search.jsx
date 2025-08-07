@@ -6,10 +6,18 @@ import styled from "styled-components";
 
 const Container = styled.div`
   padding: 2rem;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.heading};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.small};
+  }
 `;
 
 function Search() {

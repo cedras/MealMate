@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "./logo";
 import { useUser } from "../components/usercontext";
@@ -44,17 +44,24 @@ const Button = styled.button`
 
 function Navbar() {
   const { user, logout } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+  
 
   return (
     <Nav>
       <Logo $small={true} />
       <NavLinks>
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/favourites">Favourites</NavLink>
 
         {user ? (
           <>
-            <Button onClick={logout}>Logout</Button>
+            <NavLink to="/favourites">Favourites</NavLink>
+            <Button onClick={handleLogout} >Logout</Button>
           </>
         ) : (
           <>
