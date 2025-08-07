@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Favourites from "./pages/Favourites";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Favourites from "./pages/favourites";
 import Recipes from "./pages/recipes";
 import Search from "./pages/search";
 import Layout from "./layout/layout";

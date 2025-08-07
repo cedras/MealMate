@@ -1,11 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import Logo from "../components/logo";
-import SearchInput from '../components/SearchInput';
-import SearchResults from '../components/SearchResults';
-import { useEffect, useState } from 'react';
-import api from '../services/api';
-import { Link } from 'react-router-dom';
-
+import SearchInput from "../components/SearchInput";
+import SearchResults from "../components/searchresults";
+import { useEffect, useState } from "react";
+import api from "../services/api";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -13,9 +12,8 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-
 const MainContent = styled.main`
-    margin-top: 2rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,8 +30,7 @@ const Greeting = styled.h1`
 const RandomRecipesSection = styled.div`
   font-size: 2rem;
   margin-top: 50px;
-  
-`
+`;
 
 const RandomMealsGrid = styled.div`
   margin-top: 2rem;
@@ -68,38 +65,46 @@ const RandomTitle = styled.h3`
   font-size: 1.2rem;
 `;
 
-
-
 function Home() {
-
   const [randomMeals, setRandomMeals] = useState([]);
 
-useEffect(() => {
-  const fetchRandomMeals = async () => {
-    try {
-      const promises = Array.from({ length: 3 }, () => api.get('/random.php'));
-      const results = await Promise.all(promises);
-      const meals = results.map(res => res.data.meals[0]);
-      setRandomMeals(meals);
-    } catch (err) {
-      console.error("❌ Failed to fetch random meals:", err);
-    }
-  };
+  useEffect(() => {
+    const fetchRandomMeals = async () => {
+      try {
+        const promises = Array.from({ length: 3 }, () =>
+          api.get("/random.php")
+        );
+        const results = await Promise.all(promises);
+        const meals = results.map((res) => res.data.meals[0]);
+        setRandomMeals(meals);
+      } catch (err) {
+        console.error("❌ Failed to fetch random meals:", err);
+      }
+    };
 
-  fetchRandomMeals();
-}, []);
+    fetchRandomMeals();
+  }, []);
 
   return (
     <Container>
       <MainContent>
         <Logo />
-        <Greeting>Welcome to the MealMate friend, start looking for your perfect recipes now!</Greeting>
+        <Greeting>
+          Welcome to the MealMate friend, start looking for your perfect recipes
+          now!
+        </Greeting>
         <SearchInput />
-        <RandomRecipesSection>Some random recipes for inspiration:</RandomRecipesSection>
+        <RandomRecipesSection>
+          Some random recipes for inspiration:
+        </RandomRecipesSection>
 
         <RandomMealsGrid>
           {randomMeals.map((meal) => (
-            <Link to={`/recipes/${meal.idMeal}`} key={meal.idMeal} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link
+              to={`/recipes/${meal.idMeal}`}
+              key={meal.idMeal}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <RandomCard>
                 <RandomImage src={meal.strMealThumb} alt={meal.strMeal} />
                 <RandomTitle>{meal.strMeal}</RandomTitle>

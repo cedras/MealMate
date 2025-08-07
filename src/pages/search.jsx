@@ -1,66 +1,62 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import SearchResults from "../components/SearchResults";
+import { useEffect, useState } from "react";
+import SearchResults from "../components/searchresults";
 import api from "../services/api";
 import styled from "styled-components";
 
 const Container = styled.div`
-padding: 2rem;
+  padding: 2rem;
 `;
 
 const Title = styled.h2`
-font-size: ${({ theme }) => theme.fontSizes.heading};
+  font-size: ${({ theme }) => theme.fontSizes.heading};
 `;
 
-
 function Search() {
-    const location = useLocation();
-    const query = new URLSearchParams(location.search).get("q") || "";
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-   
+  const location = useLocation();
+  const query = new URLSearchParams(location.search).get("q") || "";
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-   useEffect(() => {
+  useEffect(() => {
     if (!query) return;
 
     const fetchRecipes = async () => {
-  setLoading(true);
-  setError(null);
+      setLoading(true);
+      setError(null);
 
-  try {
-    const response = await api.get(`filter.php?i=${query}`);
-    const meals = response.data.meals || [];
+      try {
+        const response = await api.get(`filter.php?i=${query}`);
+        const meals = response.data.meals || [];
 
-    const formatted = meals.map((meal) => ({
-      id: meal.idMeal,
-      name: meal.strMeal,
-      image: meal.strMealThumb,
-    }));
+        const formatted = meals.map((meal) => ({
+          id: meal.idMeal,
+          name: meal.strMeal,
+          image: meal.strMealThumb,
+        }));
 
-    setResults(formatted);
-  } catch (err) {
-    console.error("❌ API error:", err);
-    setError("Coś poszło nie tak przy pobieraniu danych.");
-  } finally {
-    setLoading(false); 
-  }
-};
+        setResults(formatted);
+      } catch (err) {
+        console.error("❌ API error:", err);
+        setError("Coś poszło nie tak przy pobieraniu danych.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchRecipes();
-   }, [query]);
+  }, [query]);
 
-   if (loading) return <p>Loading recipes...</p>;
-   if (error) return <p>{error}</p>;
-   if (!results.length) return <p>No results found for "{query}"</p>;
+  if (loading) return <p>Loading recipes...</p>;
+  if (error) return <p>{error}</p>;
+  if (!results.length) return <p>No results found for "{query}"</p>;
 
-   console.log("Query:", query);
-console.log("Results:", results);
-console.log("API full URL:", `filter.php?i=${query}`);
+  console.log("Query:", query);
+  console.log("Results:", results);
+  console.log("API full URL:", `filter.php?i=${query}`);
 
-   return <SearchResults results={results} />;
-
-    
+  return <SearchResults results={results} />;
 }
 
 export default Search;
