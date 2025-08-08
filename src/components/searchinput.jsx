@@ -50,7 +50,7 @@ function SearchInput() {
     <InputWrapper>
       <Input
         type="text"
-        placeholder="Enter your ingiredient (e.g. chicken, pasta)"
+        placeholder="Enter your ingiredient (e.g. chicken, onion)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyPress}
