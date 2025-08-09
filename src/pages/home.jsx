@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "../components/logo";
-import SearchInput from "../components/SearchInput";
-import SearchResults from "../components/searchresults";
+import SearchInput from "../components/searchInput";
+import SearchResults from "../components/searchResults";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { Link } from "react-router-dom";

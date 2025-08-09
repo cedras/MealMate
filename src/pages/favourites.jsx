@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../services/firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { useUser } from "../components/usercontext";
+import { useUser } from "../hooks/useUser";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -105,8 +105,10 @@ function Favourites() {
   useEffect(() => {
     const fetchFavourites = async () => {
       try {
-        const mealsSnapshot = await getDocs(collection(db, "favourites", user.uid, "meals"));
-        const mealsData = mealsSnapshot.docs.map(doc => doc.data());
+        const mealsSnapshot = await getDocs(
+          collection(db, "favourites", user.uid, "meals")
+        );
+        const mealsData = mealsSnapshot.docs.map((doc) => doc.data());
         setRecipes(mealsData);
       } catch (error) {
         console.error("❌ Failed to fetch favourites:", error);
@@ -121,7 +123,7 @@ function Favourites() {
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "favourites", user.uid, "meals", id));
-      setRecipes(prev => prev.filter(recipe => recipe.id !== id));
+      setRecipes((prev) => prev.filter((recipe) => recipe.id !== id));
       alert("Recipe removed from favourites.");
     } catch (error) {
       console.error("❌ Failed to delete recipe:", error);
@@ -130,19 +132,22 @@ function Favourites() {
   };
 
   if (loading) return <Container>Loading your favourite recipes...</Container>;
-  if (recipes.length === 0) return <Container>You have no favourite recipes yet.</Container>;
+  if (recipes.length === 0)
+    return <Container>You have no favourite recipes yet.</Container>;
 
   return (
     <Container>
       <Title>Your Favourite Recipes</Title>
       <FavList>
-        {recipes.map(recipe => (
+        {recipes.map((recipe) => (
           <FavItem key={recipe.id}>
             <FavLink to={`/recipes/${recipe.id}`}>
               <FavThumbnail src={recipe.image} alt={recipe.name} />
               <FavName>{recipe.name}</FavName>
             </FavLink>
-            <DeleteButton onClick={() => handleDelete(recipe.id)}>❌</DeleteButton>
+            <DeleteButton onClick={() => handleDelete(recipe.id)}>
+              ❌
+            </DeleteButton>
           </FavItem>
         ))}
       </FavList>

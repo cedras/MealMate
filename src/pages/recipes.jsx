@@ -2,14 +2,12 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import styled from "styled-components";
-import { useUser } from "../components/usercontext";
+import { useUser } from "../hooks/useUser";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 
-
 const Container = styled.div`
   padding: 2rem;
-  
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 1rem;
@@ -107,7 +105,6 @@ const FavouriteButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
   }
-
 `;
 
 function Recipe() {
@@ -140,34 +137,31 @@ function Recipe() {
 
   const ingredients = getIngredients(recipe);
 
+  const handleSaveToFavourites = async () => {
+    if (!user) return;
 
-const handleSaveToFavourites = async () => {
-  if (!user) return;
+    const recipeRef = doc(db, "favourites", user.uid, "meals", recipe.idMeal);
 
-  const recipeRef = doc(db, "favourites", user.uid, "meals", recipe.idMeal);
+    try {
+      const existing = await getDoc(recipeRef);
 
-  try {
-    const existing = await getDoc(recipeRef);
+      if (existing.exists()) {
+        alert("This recipe is already in your favourites!");
+        return;
+      }
 
-    if (existing.exists()) {
-      alert("This recipe is already in your favourites!");
-      return;
+      await setDoc(recipeRef, {
+        id: recipe.idMeal,
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      });
+
+      alert("Recipe saved to your favourites!");
+    } catch (error) {
+      console.error("❌ Error saving recipe:", error);
+      alert("Failed to save recipe.");
     }
-
-    await setDoc(recipeRef, {
-      id: recipe.idMeal,
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    });
-
-    alert("Recipe saved to your favourites!");
-  } catch (error) {
-    console.error("❌ Error saving recipe:", error);
-    alert("Failed to save recipe.");
-  }
-};
-
-
+  };
 
   return (
     <Container>
@@ -181,7 +175,9 @@ const handleSaveToFavourites = async () => {
                 src={`https://www.themealdb.com/images/ingredients/${ing.name}-Small.png`}
                 alt={ing.name}
               />
-              <IngredientText>{ing.measure} {ing.name}</IngredientText>
+              <IngredientText>
+                {ing.measure} {ing.name}
+              </IngredientText>
             </IngredientItem>
           ))}
         </Ingredients>
@@ -191,7 +187,9 @@ const handleSaveToFavourites = async () => {
           ❤️ Save to favourites
         </FavouriteButton>
       )}
-      <InstructionHeading>How to make this delicious recipe:</InstructionHeading>
+      <InstructionHeading>
+        How to make this delicious recipe:
+      </InstructionHeading>
       <Instructions>{recipe.strInstructions}</Instructions>
     </Container>
   );

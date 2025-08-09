@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "./logo";
-import { useUser } from "../components/usercontext";
+import { useUser } from "../hooks/useUser";
 import { useState } from "react";
 
 const Nav = styled.nav`
@@ -20,23 +20,22 @@ const NavLinks = styled.div`
   align-items: center;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: ${({ theme }) => theme.colors.secondary};
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 1rem;
-  gap: 1rem;
-  transform: ${({ $isOpen}) => 
-    $isOpen ? "translateY(0)" : "translatey(-200%)"};
-  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
-  transition: all 0.3s ease-in-out;
-  z-index: 100;
-}
-  
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: ${({ theme }) => theme.colors.secondary};
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    gap: 1rem;
+    transform: ${({ $isOpen }) =>
+      $isOpen ? "translateY(0)" : "translatey(-200%)"};
+    opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
+    pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
+    transition: all 0.3s ease-in-out;
+    z-index: 100;
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -49,8 +48,8 @@ const NavLink = styled(Link)`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-  margin: 0;
-  width: 100%;
+    margin: 0;
+    width: 100%;
   }
 `;
 
@@ -84,9 +83,9 @@ const Burger = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-  display: flex;
+    display: flex;
   }
-`
+`;
 
 function Navbar() {
   const { user, logout } = useUser();
@@ -98,29 +97,36 @@ function Navbar() {
     navigate("/");
     setIsOpen(false);
   };
-  
 
   return (
     <Nav>
-      <Logo/>
+      <Logo />
 
       <Burger onClick={() => setIsOpen((prev) => !prev)}>
-      <span></span>
-      <span></span>
-      <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </Burger>
       <NavLinks $isOpen={isOpen}>
-        <NavLink to="/" onClick={() => setIsOpen(false)}>Home</NavLink>
+        <NavLink to="/" onClick={() => setIsOpen(false)}>
+          Home
+        </NavLink>
 
         {user ? (
           <>
-            <NavLink to="/favourites" onClick={() => setIsOpen(false)}>Favourites</NavLink>
-            <Button onClick={handleLogout} >Logout</Button>
+            <NavLink to="/favourites" onClick={() => setIsOpen(false)}>
+              Favourites
+            </NavLink>
+            <Button onClick={handleLogout}>Logout</Button>
           </>
         ) : (
           <>
-            <NavLink to="/login" onClick={() => setIsOpen(false)}>Login</NavLink>
-            <NavLink to="/register" onClick={() => setIsOpen(false)}>Register</NavLink>
+            <NavLink to="/login" onClick={() => setIsOpen(false)}>
+              Login
+            </NavLink>
+            <NavLink to="/register" onClick={() => setIsOpen(false)}>
+              Register
+            </NavLink>
           </>
         )}
       </NavLinks>

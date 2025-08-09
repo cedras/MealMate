@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
 
@@ -18,11 +18,10 @@ export function UserProvider({ children }) {
   const logout = () => signOut(auth);
 
   return (
-    <UserContext.Provider value={{ user, logout }}>
+    <UserContext value={{ user, logout }}>
       {children}
-    </UserContext.Provider>
+    </UserContext>
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useUser = () => useContext(UserContext);
+export default UserContext;
